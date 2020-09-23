@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cstiweb.hdzc.mapper.ApplyMapper">
+  <resultMap id="BaseResultMap" type="com.cstiweb.hdzc.model.Apply">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="picture" jdbcType="VARCHAR" property="picture" />
+    <result column="statu" jdbcType="VARCHAR" property="statu" />
+    <result column="bo_hui_yi_jian" jdbcType="VARCHAR" property="boHuiYiJian" />
+    <result column="apply_time" jdbcType="VARCHAR" property="applyTime" />
+    <result column="bo_hui_time" jdbcType="VARCHAR" property="boHuiTime" />
+    <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
+    <result column="zhuan_ye" jdbcType="VARCHAR" property="zhuanYe" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="ban_ji" jdbcType="VARCHAR" property="banJi" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, type_id, description, picture, statu, bo_hui_yi_jian, apply_time, bo_hui_time, 
+    is_delete, zhuan_ye, grade, ban_ji
+  </sql>
+  <select id="selectByExample" parameterType="com.cstiweb.hdzc.model.ApplyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from apply
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from apply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cstiweb.hdzc.model.ApplyExample">
+    delete from apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cstiweb.hdzc.model.Apply">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into apply (user_id, type_id, description, 
+      picture, statu, bo_hui_yi_jian, 
+      apply_time, bo_hui_time, is_delete, 
+      zhuan_ye, grade, ban_ji
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
+      #{picture,jdbcType=VARCHAR}, #{statu,jdbcType=VARCHAR}, #{boHuiYiJian,jdbcType=VARCHAR}, 
+      #{applyTime,jdbcType=VARCHAR}, #{boHuiTime,jdbcType=VARCHAR}, #{isDelete,jdbcType=VARCHAR}, 
+      #{zhuanYe,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{banJi,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cstiweb.hdzc.model.Apply">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into apply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="picture != null">
+        picture,
+      </if>
+      <if test="statu != null">
+        statu,
+      </if>
+      <if test="boHuiYiJian != null">
+        bo_hui_yi_jian,
+      </if>
+      <if test="applyTime != null">
+        apply_time,
+      </if>
+      <if test="boHuiTime != null">
+        bo_hui_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="zhuanYe != null">
+        zhuan_ye,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="banJi != null">
+        ban_ji,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null">
+        #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="statu != null">
+        #{statu,jdbcType=VARCHAR},
+      </if>
+      <if test="boHuiYiJian != null">
+        #{boHuiYiJian,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null">
+        #{applyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="boHuiTime != null">
+        #{boHuiTime,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="zhuanYe != null">
+        #{zhuanYe,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="banJi != null">
+        #{banJi,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cstiweb.hdzc.model.ApplyExample" resultType="java.lang.Long">
+    select count(*) from apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update apply
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeId != null">
+        type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picture != null">
+        picture = #{record.picture,jdbcType=VARCHAR},
+      </if>
+      <if test="record.statu != null">
+        statu = #{record.statu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boHuiYiJian != null">
+        bo_hui_yi_jian = #{record.boHuiYiJian,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyTime != null">
+        apply_time = #{record.applyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boHuiTime != null">
+        bo_hui_time = #{record.boHuiTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zhuanYe != null">
+        zhuan_ye = #{record.zhuanYe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grade != null">
+        grade = #{record.grade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.banJi != null">
+        ban_ji = #{record.banJi,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update apply
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      description = #{record.description,jdbcType=VARCHAR},
+      picture = #{record.picture,jdbcType=VARCHAR},
+      statu = #{record.statu,jdbcType=VARCHAR},
+      bo_hui_yi_jian = #{record.boHuiYiJian,jdbcType=VARCHAR},
+      apply_time = #{record.applyTime,jdbcType=VARCHAR},
+      bo_hui_time = #{record.boHuiTime,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=VARCHAR},
+      zhuan_ye = #{record.zhuanYe,jdbcType=VARCHAR},
+      grade = #{record.grade,jdbcType=VARCHAR},
+      ban_ji = #{record.banJi,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cstiweb.hdzc.model.Apply">
+    update apply
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null">
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="statu != null">
+        statu = #{statu,jdbcType=VARCHAR},
+      </if>
+      <if test="boHuiYiJian != null">
+        bo_hui_yi_jian = #{boHuiYiJian,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null">
+        apply_time = #{applyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="boHuiTime != null">
+        bo_hui_time = #{boHuiTime,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="zhuanYe != null">
+        zhuan_ye = #{zhuanYe,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="banJi != null">
+        ban_ji = #{banJi,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cstiweb.hdzc.model.Apply">
+    update apply
+    set user_id = #{userId,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      picture = #{picture,jdbcType=VARCHAR},
+      statu = #{statu,jdbcType=VARCHAR},
+      bo_hui_yi_jian = #{boHuiYiJian,jdbcType=VARCHAR},
+      apply_time = #{applyTime,jdbcType=VARCHAR},
+      bo_hui_time = #{boHuiTime,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=VARCHAR},
+      zhuan_ye = #{zhuanYe,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=VARCHAR},
+      ban_ji = #{banJi,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

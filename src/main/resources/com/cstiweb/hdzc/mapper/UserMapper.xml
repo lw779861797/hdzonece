@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cstiweb.hdzc.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.cstiweb.hdzc.model.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="xue_gong_id" jdbcType="VARCHAR" property="xueGongId" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="xue_yuan_id" jdbcType="INTEGER" property="xueYuanId" />
+    <result column="zhuan_ye" jdbcType="VARCHAR" property="zhuanYe" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="ban_ji" jdbcType="VARCHAR" property="banJi" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="zong_ce" jdbcType="DOUBLE" property="zongCe" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, sex, id_card, xue_gong_id, password, xue_yuan_id, zhuan_ye, grade, ban_ji, 
+    type, zong_ce, is_delete
+  </sql>
+  <select id="selectByExample" parameterType="com.cstiweb.hdzc.model.UserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cstiweb.hdzc.model.UserExample">
+    delete from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cstiweb.hdzc.model.User">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user (name, sex, id_card, 
+      xue_gong_id, password, xue_yuan_id, 
+      zhuan_ye, grade, ban_ji, 
+      type, zong_ce, is_delete
+      )
+    values (#{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, 
+      #{xueGongId,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{xueYuanId,jdbcType=INTEGER}, 
+      #{zhuanYe,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{banJi,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{zongCe,jdbcType=DOUBLE}, #{isDelete,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cstiweb.hdzc.model.User">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
+      <if test="xueGongId != null">
+        xue_gong_id,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="xueYuanId != null">
+        xue_yuan_id,
+      </if>
+      <if test="zhuanYe != null">
+        zhuan_ye,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="banJi != null">
+        ban_ji,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="zongCe != null">
+        zong_ce,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="xueGongId != null">
+        #{xueGongId,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="xueYuanId != null">
+        #{xueYuanId,jdbcType=INTEGER},
+      </if>
+      <if test="zhuanYe != null">
+        #{zhuanYe,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="banJi != null">
+        #{banJi,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="zongCe != null">
+        #{zongCe,jdbcType=DOUBLE},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cstiweb.hdzc.model.UserExample" resultType="java.lang.Long">
+    select count(*) from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idCard != null">
+        id_card = #{record.idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xueGongId != null">
+        xue_gong_id = #{record.xueGongId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xueYuanId != null">
+        xue_yuan_id = #{record.xueYuanId,jdbcType=INTEGER},
+      </if>
+      <if test="record.zhuanYe != null">
+        zhuan_ye = #{record.zhuanYe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grade != null">
+        grade = #{record.grade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.banJi != null">
+        ban_ji = #{record.banJi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.zongCe != null">
+        zong_ce = #{record.zongCe,jdbcType=DOUBLE},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      id_card = #{record.idCard,jdbcType=VARCHAR},
+      xue_gong_id = #{record.xueGongId,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      xue_yuan_id = #{record.xueYuanId,jdbcType=INTEGER},
+      zhuan_ye = #{record.zhuanYe,jdbcType=VARCHAR},
+      grade = #{record.grade,jdbcType=VARCHAR},
+      ban_ji = #{record.banJi,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      zong_ce = #{record.zongCe,jdbcType=DOUBLE},
+      is_delete = #{record.isDelete,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cstiweb.hdzc.model.User">
+    update user
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="xueGongId != null">
+        xue_gong_id = #{xueGongId,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="xueYuanId != null">
+        xue_yuan_id = #{xueYuanId,jdbcType=INTEGER},
+      </if>
+      <if test="zhuanYe != null">
+        zhuan_ye = #{zhuanYe,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="banJi != null">
+        ban_ji = #{banJi,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="zongCe != null">
+        zong_ce = #{zongCe,jdbcType=DOUBLE},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cstiweb.hdzc.model.User">
+    update user
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      xue_gong_id = #{xueGongId,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      xue_yuan_id = #{xueYuanId,jdbcType=INTEGER},
+      zhuan_ye = #{zhuanYe,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=VARCHAR},
+      ban_ji = #{banJi,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      zong_ce = #{zongCe,jdbcType=DOUBLE},
+      is_delete = #{isDelete,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

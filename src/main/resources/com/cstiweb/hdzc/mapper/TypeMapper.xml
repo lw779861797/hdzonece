@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cstiweb.hdzc.mapper.TypeMapper">
+  <resultMap id="BaseResultMap" type="com.cstiweb.hdzc.model.Type">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="score" jdbcType="DOUBLE" property="score" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="xue_yuan_id" jdbcType="INTEGER" property="xueYuanId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, parent_id, name, score, is_delete, xue_yuan_id
+  </sql>
+  <select id="selectByExample" parameterType="com.cstiweb.hdzc.model.TypeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cstiweb.hdzc.model.TypeExample">
+    delete from type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cstiweb.hdzc.model.Type">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into type (parent_id, name, score, 
+      is_delete, xue_yuan_id)
+    values (#{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{score,jdbcType=DOUBLE}, 
+      #{isDelete,jdbcType=INTEGER}, #{xueYuanId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cstiweb.hdzc.model.Type">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="xueYuanId != null">
+        xue_yuan_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="xueYuanId != null">
+        #{xueYuanId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cstiweb.hdzc.model.TypeExample" resultType="java.lang.Long">
+    select count(*) from type
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update type
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentId != null">
+        parent_id = #{record.parentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.score != null">
+        score = #{record.score,jdbcType=DOUBLE},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.xueYuanId != null">
+        xue_yuan_id = #{record.xueYuanId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update type
+    set id = #{record.id,jdbcType=INTEGER},
+      parent_id = #{record.parentId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      score = #{record.score,jdbcType=DOUBLE},
+      is_delete = #{record.isDelete,jdbcType=INTEGER},
+      xue_yuan_id = #{record.xueYuanId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cstiweb.hdzc.model.Type">
+    update type
+    <set>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="xueYuanId != null">
+        xue_yuan_id = #{xueYuanId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cstiweb.hdzc.model.Type">
+    update type
+    set parent_id = #{parentId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      score = #{score,jdbcType=DOUBLE},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      xue_yuan_id = #{xueYuanId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
